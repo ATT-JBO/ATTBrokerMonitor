@@ -1,0 +1,121 @@
+#:kivy 1.9.1
+
+<CredentialsDialog>:
+    userNameInput: txtUserName
+    pwdInput: txtPwd
+    serverInput: txtServer
+    brokerInput: txtBroker
+    auto_dismiss: False
+    title: 'Credentials'
+    size_hint: None, None
+    width: '300dp'
+    height:  grdMain.minimum_height + dp(60) # '440dp'
+    pos_hint:{'center_x': .5, 'center_y': .5}
+    GridLayout:
+        id: grdMain
+        cols: 1
+        spacing: '8dp'
+        size_hint: 1, 1
+		padding: '10dp'
+        TextInput:
+            id: txtUserName
+            focus: True
+            write_tab: False
+            hint_text: 'User name'
+            size_hint_y: None
+            height:'32dp'
+        TextInput:
+            id: txtPwd
+            write_tab: False
+            hint_text: 'Password'
+            size_hint_y: None
+            height:'32dp'
+        TextInput:
+            id: txtServer
+            write_tab: False
+            hint_text: 'server address'
+            size_hint_y: None
+            height:'32dp'
+        TextInput:
+            id: txtBroker
+            write_tab: False
+            hint_text: 'broker address'
+            size_hint_y: None
+            height:'32dp'
+        Button:
+            text: 'Cancel'
+            on_press: root.dismiss()
+            size_hint_y: None
+            height:'32dp'
+        Button:
+            text: 'Ok'
+            on_press: root.dismissOk()
+            size_hint_y: None
+            height:'32dp'
+
+<LogView>:
+    toClientLayout: grdToClient
+    toCloudLayout: grdToCloud
+    GridLayout:
+        cols: 2
+        rows: 2
+        Label:
+            size_hint: 1, None
+            height: '32dp'
+            text: 'device to cloud'
+            text_size: self.size
+            halign: 'left'
+        Label:
+            size_hint: 1, None
+            height: '32dp'
+            text: 'cloud to client'
+            text_size: self.size
+            halign: 'left'
+        ScrollView:
+            GridLayout:
+                id: grdToCloud
+                cols: 1
+                pos_hint: {'x': 0, 'y': 0}
+                size_hint: 1, None
+                height: self.minimum_height
+        ScrollView:
+            GridLayout:
+                id: grdToClient
+                cols: 1
+                pos_hint: {'x': 0, 'y': 0}
+                size_hint: 1, None
+                height: self.minimum_height
+
+<MainWindow>:
+    documentsView: mainCarousel
+    BoxLayout:
+        size: root.size
+        pos: root.pos
+        orientation: 'vertical'
+        ActionBar:
+            size_hint: 1, None
+            ActionView:
+                use_separator: True
+                ActionPrevious:
+                    title: 'Home config'
+                    with_previous: False
+                ActionOverflow:
+                    ActionButton:
+                        markup: True
+                        text: 'Credentials'
+                        on_press: root.showCredentialsDlg()
+                ActionButton:
+                    markup: True
+                    text: 'add'
+                    on_release: root.AddAsset()
+                ActionButton:
+                    markup: True
+                    text: 'remove'
+                    on_release: root.removeCurrent()
+                ActionButton:
+                    markup: True
+                    text: 'clear'
+                    on_release: root.clearCurrent()
+        TabbedPanel:
+            id: mainCarousel
+            do_default_tab: False
